@@ -6,6 +6,7 @@ import Column from 'primevue/column'
 const formData = ref({
   username: '',
   password: '',
+  confirmPassword: '', // 新增
   isAustralian: false,
   reason: '',
   gender: ''
@@ -16,7 +17,8 @@ const submittedCards = ref([])
 const submitForm = () => {
   validateName(true)
   validatePassword(true)
-  if (!errors.value.username && !errors.value.password) {
+  validateConfirmPassword(true) // 新增
+  if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword) {
     submittedCards.value.push({ ...formData.value })
     clearForm()
   }
@@ -26,6 +28,7 @@ const clearForm = () => {
   formData.value = {
     username: '',
     password: '',
+    confirmPassword: '', // 新增
     isAustralian: false,
     reason: '',
     gender: ''
@@ -35,6 +38,7 @@ const clearForm = () => {
 const errors = ref({
   username: null,
   password: null,
+  confirmPassword: null, // 新增
   resident: null,
   gender: null,
   reason: null
@@ -71,6 +75,14 @@ const validatePassword = (blur) => {
   }
 }
 
+const validateConfirmPassword = (blur) => {
+  if (formData.value.confirmPassword !== formData.value.password) {
+    if (blur) errors.value.confirmPassword = 'Passwords do not match.'
+  } else {
+    errors.value.confirmPassword = null
+  }
+}
+
 const showFriendMessage = ref(false)
 
 const validateReason = () => {
@@ -81,7 +93,7 @@ const validateReason = () => {
 
 <template>
   <!-- 🗄️ W3. Library Registration Form -->
-  <div class="container mt-5">
+  <div class="mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <h1 class="text-center">🗄️ W4. Library Registration Form</h1>
@@ -103,7 +115,17 @@ const validateReason = () => {
               />
               <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
             </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender" v-model="formData.gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
 
+          <div class="row mb-3">
             <div class="col-md-6 col-sm-6">
               <label for="password" class="form-label">Password</label>
               <input
@@ -116,7 +138,20 @@ const validateReason = () => {
               />
               <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
             </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                @blur="() => validateConfirmPassword(true)"
+                @input="() => validateConfirmPassword(false)"
+                v-model="formData.confirmPassword"
+              />
+              <div v-if="errors.confirmPassword" class="text-danger">{{ errors.confirmPassword }}</div>
+            </div>
           </div>
+
           <div class="row mb-3">
             <div class="col-md-6 col-sm-6">
               <div class="form-check">
@@ -128,14 +163,6 @@ const validateReason = () => {
                 />
                 <label class="form-check-label" for="isAustralian">Australian Resident?</label>
               </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-              <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" v-model="formData.gender" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
             </div>
           </div>
           <div class="mb-3">
@@ -195,15 +222,6 @@ const validateReason = () => {
 </template>
 
 <style scoped>
-.container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 80vw;
-  margin: 0 auto;
-  padding: 20px;
-  /* background-color: #e0bfbf; */
-  border-radius: 10px;
-}
-
 /* Class selectors */
 .form {
   text-align: center;
