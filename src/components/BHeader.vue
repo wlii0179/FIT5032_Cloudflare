@@ -12,6 +12,9 @@
         <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/Firelogin" class="nav-link" active-class="active">Firebase Login</router-link>
+        </li>
       </ul>
       <div>
         <button v-if="isAuthenticated" class="btn btn-outline-danger ms-3" @click="handleLogout">Logout</button>
@@ -24,12 +27,18 @@
 <script setup>
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAuth, signOut } from 'firebase/auth'
 const isAuthenticated = inject('isAuthenticated')
 const router = useRouter()
 
 const handleLogout = () => {
-  isAuthenticated.value = false
-  router.push('/login')
+  // Firebase sign out
+  signOut(getAuth()).then(() => {
+    localStorage.removeItem('userRole')
+    isAuthenticated.value = false
+    console.log('User after logout:', getAuth().currentUser)
+    router.push('/Firelogin')
+  })
 }
 </script>
 
