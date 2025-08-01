@@ -7,6 +7,10 @@ import { inject } from 'vue'
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '../views/FirebaseRegisterView.vue'
 
+import AddBookView from '../views/AddBookView.vue';
+import WeatherView from '../views/WeatherView.vue'
+import CountBookAPI from '../views/CountBookAPI.vue';
+
 const routes = [
   {
     path: '/',
@@ -38,6 +42,21 @@ const routes = [
     path: '/fire-register',
     name: 'FireRegister',
     component: FirebaseRegisterView
+  },
+  {
+    path: '/addbook',
+    name: 'AddBook',
+    component: AddBookView
+  },
+  {
+    path: '/weatherCheck',
+    name: 'WeatherCheck',
+    component: WeatherView
+  },
+  {
+    path: '/GetAllBookAPI',
+    name: 'GetAllBookAPI',
+    component: CountBookAPI
   }
 ]
 

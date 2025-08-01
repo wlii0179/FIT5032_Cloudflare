@@ -15,6 +15,15 @@
         <li class="nav-item">
           <router-link to="/Firelogin" class="nav-link" active-class="active">Firebase Login</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/weatherCheck" class="nav-link" active-class="active">Weather Check</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/GetAllBookAPI" class="nav-link" active-class="active">Get All Book API</router-link>
+        </li>
       </ul>
       <div>
         <button v-if="isAuthenticated" class="btn btn-outline-danger ms-3" @click="handleLogout">Logout</button>
