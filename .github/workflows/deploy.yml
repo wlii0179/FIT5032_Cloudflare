@@ -31,4 +31,4 @@ jobs:
         folder: dist
 
 permissions:
-  contents: write 
+  contents: write
